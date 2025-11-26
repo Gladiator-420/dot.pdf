@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOT pdf</title>
+
+    <link rel="icon" type="image/png" href="LOGO.png">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="loader-overlay" class="loader-overlay">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>Loading Tool...</p>
+        </div>
+    </div>
+
+    <!-- Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Navbar -->
+    <nav class="topnav glass">
+        <div class="nav-brand">
+            <a href="index.html" class="nav-brand-link">
+                <img src="LOGO.png" alt="DOT PDF Logo" class="nav-logo-img">
+            </a>
+
+            <span class="nav-title">
+                <span class="char-cyan">D</span>
+                <span class="char-blue">O</span>
+                <span class="char-purple">T</span>
+                <span class="char-space"></span>
+                <span class="char-pink">pdf</span>
+            </span>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+
+            <li class="dropdown-container" id="dropdown-container">
+                <a href="javascript:void(0)" class="nav-link dropdown-trigger" id="tools-trigger">
+                    Tools <i class="fa-solid fa-chevron-down arrow-indicator"></i>
+                </a>
+
+                <div class="dropdown-menu glass-card">
+
+                    <a href="scan.html" class="dropdown-item">
+                        <div class="dd-icon blue"><i class="fa-solid fa-camera"></i></div>
+                        <div class="dd-text">
+                            <span class="dd-title">Scan & Create</span>
+                            <span class="dd-desc">Camera to PDF</span>
+                        </div>
+                    </a>
+
+                    <a href="image-to-pdf.html" class="dropdown-item">
+                        <div class="dd-icon purple"><i class="fa-regular fa-images"></i></div>
+                        <div class="dd-text">
+                            <span class="dd-title">Image to PDF</span>
+                            <span class="dd-desc">JPG/PNG to Doc</span>
+                        </div>
+                    </a>
+
+                    <a href="merge.html" class="dropdown-item">
+                        <div class="dd-icon pink"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="dd-text">
+                            <span class="dd-title">Merge PDF</span>
+                            <span class="dd-desc">Combine files</span>
+                        </div>
+                    </a>
+                    <a href="compress.html" class="dropdown-item">
+                        <div class="dd-icon orange"><i class="fa-solid fa-file-zipper"></i></div>
+                        <div class="dd-text">
+                            <span class="dd-title">Compress PDF</span>
+                            <span class="dd-desc">Reduce file size</span>
+                        </div>
+                    </a>
+
+                    <a id="installAppBtn" class="dropdown-item" style="display:none;">
+                        <div class="dd-icon blue"><i class="fa-solid fa-download"></i></div>
+                        <div class="dd-text">
+                            <span class="dd-title">Install App</span>
+                            <span class="dd-desc">Install DotPDF as a PWA</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-center">
+
+        <!-- Hero -->
+        <div class="hero-text fade-in">
+            <h1>All your PDF tools in <span class="highlight">one place.</span></h1>
+            <p>Secure, client-side PDF manipulation.</p>
+        </div>
+
+        <!-- Tools -->
+        <div class="tools-list fade-in">
+
+
+            <div class="card tool-card glass-card hover-glow" onclick="location.href='scan.html'">
+                <div class="icon-box blue"><i class="fa-solid fa-camera"></i></div>
+                <div class="card-info">
+                    <h2>Scan & Create</h2>
+                    <p>Use camera to scan documents directly to PDF.</p>
+                </div>
+                <div class="arrow-icon"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+
+            <div class="card tool-card glass-card hover-glow" onclick="location.href='image-to-pdf.html'">
+                <div class="icon-box purple"><i class="fa-regular fa-images"></i></div>
+                <div class="card-info">
+                    <h2>Image to PDF</h2>
+                    <p>Combine JPG/PNG images into a single document.</p>
+                </div>
+                <div class="arrow-icon"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+
+            <div class="card tool-card glass-card hover-glow" onclick="location.href='merge.html'">
+                <div class="icon-box pink"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="card-info">
+                    <h2>Merge PDF</h2>
+                    <p>Combine multiple PDF files seamlessly.</p>
+                </div>
+                <div class="arrow-icon"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+            <div class="card tool-card glass-card hover-glow" onclick="location.href='compress.html'">
+                <div class="icon-box orange"><i class="fa-solid fa-file-zipper"></i></div>
+                <div class="card-info">
+                    <h2>Compress PDF</h2>
+                    <p>Reduce PDF file size locally.</p>
+                </div>
+                <div class="arrow-icon"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>Made with <i class="fa-solid fa-heart heart-beat"></i> — All operations happen locally.</p>
+
+            <p class="copyright-text">
+                &copy; <span id="year">2025</span>
+                <span id="author-trigger" class="name-highlight" style="cursor: pointer;">Swastik</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

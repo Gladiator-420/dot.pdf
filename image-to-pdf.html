@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF — DOT pdf</title>
+     <link rel="icon" type="image/png" href="LOGO.png">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="image-to-pdf.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3" style="top: 70%; left: 80%;"></div>
+
+    <nav class="topnav glass" style="padding: 0 30px;">
+        <div class="nav-brand">
+<a href="index.html" class="nav-brand-link">
+    <img src="LOGO.png" alt="DOT PDF Logo" class="nav-logo-img">
+</a><span class="nav-title">
+                <span class="char-cyan">D</span>
+                <span class="char-blue">O</span>
+                <span class="char-purple">T</span>
+                <span class="char-space"> </span>
+                <span class="char-pink">pdf</span>
+            </span>        </div>
+        <a href="index.html" class="nav-icon" style="font-size: 1.5rem; color: var(--text-muted); transition: 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--text-muted)'">
+            <i class="fa-solid fa-house"></i>
+        </a>
+    </nav>
+
+    <main class="container-center" style="max-width: 800px; margin-top: 100px;">
+        
+        <div class="glass-card fade-in" style="padding: 40px; width: 100%; min-height: 600px; display: flex; flex-direction: column;">
+            
+            <h1 style="margin-bottom: 25px; text-align: center;">Convert Images to PDF</h1>
+
+            <div id="selection-section">
+                
+                <div class="upload-area" id="drop-zone">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <p class="upload-text">Drag & drop images here</p>
+                    <p class="upload-hint">or click to browse (JPG, PNG, WEBP)</p>
+                    <input type="file" id="file-input" multiple accept="image/jpeg, image/png, image/webp" hidden>
+                </div>
+
+                <div class="thumbnails-grid" id="thumbnails-container">
+                    </div>
+
+                <button id="convert-btn" class="btn-primary" disabled style="width: 100%;">
+                    <i class="fa-solid fa-gears"></i> Convert to PDF
+                </button>
+            </div>
+
+
+            <div id="preview-section" class="preview-section">
+                <h2 style="text-align: center;">PDF Ready!</h2>
+                
+                <div class="pdf-frame-container glass-inset">
+                    <iframe id="pdf-preview-frame" class="pdf-frame"></iframe>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="start-over-btn" class="btn-secondary" style="flex: 1;">
+                        <i class="fa-solid fa-rotate-left"></i> Start Over
+                    </button>
+                    <button id="download-btn" class="btn-primary pulse-subtle" style="flex: 1; margin-top: 0;">
+                        <i class="fa-solid fa-download"></i> Download PDF
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+    <div class="footer-content">
+        <p>Made with <i class="fa-solid fa-heart heart-beat"></i> — All operations happen locally.</p>
+        <p class="copyright-text">
+            &copy; <span id="year">2025</span> <span class="name-highlight">Swastik</span>
+        </p>
+    </div>
+</footer>
+
+    <script src="image-to-pdf.js"></script>
+</body>
+</html>

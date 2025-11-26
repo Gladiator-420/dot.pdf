@@ -1,0 +1,193 @@
+/* Specific Compress Tool Styling (Orange Theme) */
+
+/* Override Highlight for Orange */
+.highlight-orange {
+    font-weight: 800;
+    background: linear-gradient(to right, #f59e0b, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.nav-icon { color: var(--text-muted); font-size: 1.4rem; transition: 0.3s; }
+.nav-icon:hover { color: white; transform: scale(1.1); }
+/* Animated Orange/Red Gradient for the Title */
+.highlight-orange {
+    font-weight: 800;
+    
+    /* 1. Define the Flowing Gradient (Orange -> Red -> Dark Orange -> Back to Start) */
+    background: linear-gradient(
+        90deg, 
+        #f59e0b,  /* Amber */
+        #ef4444,  /* Red */
+        #d97706,  /* Dark Amber */
+        #f59e0b   /* Loop back to Amber */
+    );
+    
+    /* 2. Size it larger so it can move */
+    background-size: 200% auto;
+    
+    /* 3. Clip to text */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* 4. Animate it */
+    animation: orangeFlow 3s linear infinite;
+    
+    /* 5. Add a glowing aura */
+    filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.4));
+}
+
+/* The Animation Keyframes */
+@keyframes orangeFlow {
+    to {
+        background-position: 200% center;
+    }
+}
+/* Icon Styling */
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    background: rgba(245, 158, 11, 0.2); /* Orange tint */
+    color: #fbbf24;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 15px;
+    transition: 0.3s;
+}
+
+.upload-area:hover .icon-circle {
+    transform: scale(1.1);
+    background: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+/* Container */
+.tool-ui {
+    width: 100%;
+    padding: 30px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Upload Area (Shared structure with Merge) */
+.upload-area {
+    border: 2px dashed var(--glass-border);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+.upload-area:hover, .upload-area.dragover {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+}
+
+/* Settings Area (Replaces List) */
+.settings-area {
+    flex: 1;
+    margin: 10px 0;
+    animation: slideIn 0.3s ease forwards;
+}
+
+/* File Item (Single) */
+.file-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.file-icon { color: #ef4444; margin-right: 15px; font-size: 1.5rem; }
+.file-info { flex: 1; overflow: hidden; }
+.file-name { font-size: 1rem; font-weight: 500; display: block; }
+.file-size { font-size: 0.8rem; color: var(--text-muted); }
+
+.file-remove {
+    background: transparent; border: none; color: var(--text-muted);
+    cursor: pointer; font-size: 1.1rem; padding: 5px; transition: 0.2s;
+}
+.file-remove:hover { color: #ef4444; }
+
+/* Slider Controls */
+.control-group {
+    background: rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+
+.control-group label {
+    display: block; margin-bottom: 15px; color: #fff; font-weight: 500;
+}
+
+input[type=range] {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    background: #f59e0b; /* Orange Thumb */
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+    transition: 0.2s;
+    margin-top: -8px; /* Alignment fix */
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%; height: 6px; cursor: pointer;
+}
+
+.range-labels {
+    display: flex; justify-content: space-between;
+    font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;
+}
+
+/* Action Area */
+.actions-area { margin-top: auto; }
+
+.status-text {
+    text-align: center; margin-bottom: 10px;
+    font-size: 0.9rem; color: #f59e0b; min-height: 20px;
+}
+
+/* Compress Button (Orange Gradient) */
+.action-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(90deg, #f59e0b, #ea580c);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    transition: 0.3s;
+}
+
+.action-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+}
+
+.action-btn:disabled {
+    background: #334155; color: #94a3b8; cursor: not-allowed; box-shadow: none;
+}
+
+@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

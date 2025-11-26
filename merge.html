@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF — DOT pdf</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="merge.css">
+        <link rel="icon" type="image/png" href="LOGO.png">
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7/download.min.js"></script>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3" style="top: 20%; left: 80%; background: #ec4899;"></div>
+
+    <nav class="topnav glass">
+        <div class="nav-brand">
+<a href="index.html" class="nav-brand-link">
+    <img src="LOGO.png" alt="DOT PDF Logo" class="nav-logo-img">
+</a>
+<span class="nav-title">
+                <span class="char-cyan">D</span>
+                <span class="char-blue">O</span>
+                <span class="char-purple">T</span>
+                <span class="char-space"> </span>
+                <span class="char-pink">pdf</span>
+            </span>        </div>
+        <a href="index.html" class="nav-icon" title="Back to Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+    </nav>
+
+    <main class="container-center">
+        
+        <div class="glass-card fade-in main-card">
+            
+            <h1 class="page-title">Merge PDF Files</h1>
+            <p class="page-subtitle">Combine multiple PDFs into one document.</p>
+
+            <div class="upload-area" id="drop-zone">
+                <i class="fa-solid fa-file-circle-plus upload-icon"></i>
+                <p class="upload-text">Drag & drop PDF files here</p>
+                <p class="upload-hint">or click to browse</p>
+                <input type="file" id="file-input" multiple accept="application/pdf" hidden>
+            </div>
+
+            <div id="file-list" class="file-list">
+                <div class="empty-state">No files selected</div>
+            </div>
+
+            <div class="actions-area">
+                <div class="status-text" id="status-text"></div>
+                <button id="merge-btn" class="btn-primary" disabled>
+                    <i class="fa-solid fa-layer-group"></i> Merge PDFs
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+     <footer>
+    <div class="footer-content">
+        <p>Made with <i class="fa-solid fa-heart heart-beat"></i> — All operations happen locally.</p>
+        <p class="copyright-text">
+            &copy; <span id="year">2025</span> <span class="name-highlight">Swastik</span>
+        </p>
+    </div>
+</footer>
+
+    <script src="merge.js"></script>
+</body>
+</html>

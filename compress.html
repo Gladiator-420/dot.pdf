@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress PDF — DOT pdf</title>
+    <link rel="icon" type="image/png" href="LOGO.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="compress.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3" style="top: 20%; left: 80%; background: #f59e0b;"></div>
+
+    <nav class="topnav glass">
+        <div class="nav-brand">
+            <a href="index.html" class="nav-brand-link">
+                <img src="LOGO.png" alt="DOT PDF Logo" class="nav-logo-img">
+            </a>
+            <span class="nav-title">
+                <span class="char-cyan">D</span><span class="char-blue">O</span><span class="char-purple">T</span>
+                <span class="char-space"></span>
+                <span class="char-pink">pdf</span>
+            </span>
+        </div>
+         <a href="index.html" class="nav-icon" title="Back to Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+    </nav>
+
+    <main class="container-center">
+        
+        <div class="hero-text fade-in">
+            <h1>Compress <span class="highlight-orange">PDF</span></h1>
+            <p>Reduce file size locally.</p>
+        </div>
+
+        <div class="glass-card tool-ui fade-in">
+            
+            <div class="upload-area" id="drop-zone">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-minimize"></i>
+                </div>
+                <p class="upload-text">Drag & drop PDF here</p>
+                <p class="upload-hint">or click to browse</p>
+                <input type="file" id="file-input" accept="application/pdf" hidden>
+            </div>
+
+            <div id="settings-area" class="settings-area" style="display: none;">
+                
+                <div class="file-item">
+                    <i class="fa-solid fa-file-pdf file-icon"></i>
+                    <div class="file-info">
+                        <span class="file-name" id="file-name">document.pdf</span>
+                        <span class="file-size" id="file-size">2.5 MB</span>
+                    </div>
+                    <button class="file-remove" id="remove-file-btn">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <label>Compression Level:</label>
+                    <input type="range" id="quality-range" min="0.1" max="0.8" step="0.1" value="0.5">
+                    <div class="range-labels">
+                        <span>Max (Low Quality)</span>
+                        <span>Balanced</span>
+                        <span>Light (High Quality)</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="actions-area">
+                <div class="status-text" id="status-text"></div>
+                <button id="compress-btn" class="action-btn" disabled>
+                    Compress PDF <i class="fa-solid fa-bolt"></i>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Made with <i class="fa-solid fa-heart heart-beat"></i> — All operations happen locally.</p>
+            <p class="copyright-text">
+                &copy; <span id="year">2025</span> <span class="name-highlight">Swastik</span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="compress.js"></script>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan to PDF — DOT pdf</title>
+        <link rel="icon" type="image/png" href="LOGO.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="scan.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3" style="top: 70%; left: 80%;"></div>
+
+    <nav class="topnav glass">
+        <div class="nav-brand">
+<a href="index.html" class="nav-brand-link">
+    <img src="LOGO.png" alt="DOT PDF Logo" class="nav-logo-img">
+</a>            <span class="nav-title">
+                <span class="char-cyan">D</span>
+                <span class="char-blue">O</span>
+                <span class="char-purple">T</span>
+                <span class="char-space"> </span>
+                <span class="char-pink">pdf</span>
+            </span>
+        </div>
+        <a href="index.html" class="nav-icon" title="Back to Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+    </nav>
+
+    <main class="container-center">
+        
+        <div class="glass-card scanner-app">
+            
+            <section id="view-landing" class="view active">
+                <div class="content-center">
+                    <h1 class="page-title">Scan Documents</h1>
+                    <p class="page-subtitle">Fast, secure, and client-side.</p>
+                    <button id="btn-start" class="btn-primary" style="max-width: 250px;">
+                        Get Started <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="view-capture" class="view hidden">
+                <div class="camera-wrapper">
+                    <video id="video-feed" autoplay playsinline></video>
+                    <canvas id="capture-canvas" style="display: none;"></canvas>
+                </div>
+                
+                <div class="thumbnails-container" id="thumbnails-list">
+                    </div>
+
+                <div class="controls">
+                    <button id="btn-capture" class="btn-circle ripple">
+                        <div class="inner-circle"></div>
+                    </button>
+                    <div class="action-row">
+                        <span id="page-count" style="color: white; font-weight: 600;">0 Pages</span>
+                        <button id="btn-done" class="btn-secondary" disabled>
+                            Done <i class="fa-solid fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-preview" class="view hidden">
+                <h2 style="text-align: center; margin-bottom: 10px;">Your PDF is Ready!</h2>
+                <div class="pdf-preview-container glass-inset">
+                    <iframe id="pdf-frame"></iframe>
+                </div>
+                <div class="button-group">
+                    <button id="btn-retake" class="btn-secondary">
+                        <i class="fa-solid fa-rotate-left"></i> New Scan
+                    </button>
+                    <button id="btn-download" class="btn-primary pulse">
+                        Download PDF <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+   <footer>
+    <div class="footer-content">
+        <p>Made with <i class="fa-solid fa-heart heart-beat"></i> — All operations happen locally.</p>
+        <p class="copyright-text">
+            &copy; <span id="year">2025</span> <span class="name-highlight">Swastik</span>
+        </p>
+    </div>
+</footer>
+
+    <script src="scan.js"></script>
+</body>
+</html>
