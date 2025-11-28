@@ -1,246 +1,249 @@
-// ---------- SCAN & CREATE PDF (UPDATED) ----------
-
+// ==========================================
+// 1. SCAN & CREATE PDF
+// ==========================================
 const startCamera = document.getElementById("startCamera");
-const captureBtn = document.getElementById("captureBtn");
-const doneBtn = document.getElementById("doneBtn");         // NEW
-const downloadScanBtn = document.getElementById("downloadScanBtn"); // NEW
-const cameraWrap = document.getElementById("cameraWrap");
-const video = document.getElementById("video");
-const snapCanvas = document.getElementById("snapCanvas");
+if (startCamera) {
+    const captureBtn = document.getElementById("captureBtn");
+    const doneBtn = document.getElementById("doneBtn");
+    const downloadScanBtn = document.getElementById("downloadScanBtn");
+    const cameraWrap = document.getElementById("cameraWrap");
+    const video = document.getElementById("video");
+    const snapCanvas = document.getElementById("snapCanvas");
 
-let camStream;
-let scannedImages = [];
-let finalScannedPdf = null;
+    let camStream;
+    let scannedImages = [];
+    let finalScannedPdf = null;
 
-// Start camera
-startCamera.onclick = async () => {
-  scannedImages = []; 
-  updateCounter();
+    startCamera.onclick = async () => {
+        scannedImages = [];
+        updateCounter();
+        downloadScanBtn.style.display = "none";
+        doneBtn.style.display = "none";
+        cameraWrap.style.display = "flex";
+        camStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = camStream;
+    };
 
-  downloadScanBtn.style.display = "none"; 
-  doneBtn.style.display = "none";
+    captureBtn.onclick = () => {
+        const ctx = snapCanvas.getContext("2d");
+        snapCanvas.width = video.videoWidth;
+        snapCanvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0);
+        scannedImages.push(snapCanvas.toDataURL("image/jpeg"));
+        updateCounter();
+        doneBtn.style.display = "block";
+    };
 
-  cameraWrap.style.display = "flex";
+    doneBtn.onclick = async () => {
+        camStream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+        if (scannedImages.length === 0) return alert("Capture at least one image!");
+        
+        const { jsPDF } = window.jspdf; // Access jsPDF correctly
+        const pdf = new jsPDF();
+        
+        scannedImages.forEach((img, i) => {
+            if (i !== 0) pdf.addPage();
+            pdf.addImage(img, "JPEG", 10, 10, 190, 260);
+        });
+        finalScannedPdf = pdf.output("blob");
+        downloadScanBtn.style.display = "block";
+    };
 
-  camStream = await navigator.mediaDevices.getUserMedia({ video: true });
-  video.srcObject = camStream;
-};
-
-// Capture image (add to list but do NOT download yet)
-captureBtn.onclick = () => {
-  const ctx = snapCanvas.getContext("2d");
-  snapCanvas.width = video.videoWidth;
-  snapCanvas.height = video.videoHeight;
-  ctx.drawImage(video, 0, 0);
-
-  scannedImages.push(snapCanvas.toDataURL("image/jpeg"));
-  updateCounter();
-
-  doneBtn.style.display = "block"; // show Done button after capture
-};
-
-// When done → stop camera + generate final PDF but not download
-doneBtn.onclick = async () => {
-  camStream.getTracks().forEach(track => track.stop());
-  video.srcObject = null;
-
-  if (scannedImages.length === 0) return alert("Capture at least one image!");
-
-  const pdf = new jspdf.jsPDF();
-  scannedImages.forEach((img, i) => {
-    if (i !== 0) pdf.addPage();
-    pdf.addImage(img, "JPEG", 10, 10, 190, 260);
-  });
-
-  finalScannedPdf = pdf.output("blob");
-  downloadScanBtn.style.display = "block"; // show download button
-};
-
-// Download only when button clicked
-downloadScanBtn.onclick = () => {
-  if (!finalScannedPdf) return;
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(finalScannedPdf);
-  link.download = "scanned.pdf";
-  link.click();
-};
+    downloadScanBtn.onclick = () => {
+        if (!finalScannedPdf) return;
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(finalScannedPdf);
+        link.download = "scanned.pdf";
+        link.click();
+    };
+}
 
 
-// ---------- IMAGE → PDF ----------
+// ==========================================
+// 2. IMAGE → PDF
+// ==========================================
 const imgInput = document.getElementById("imgInput");
-const imgDrop = document.getElementById("imgDrop");
-const imgToPdf = document.getElementById("imgToPdf");
+if (imgInput) {
+    const imgDrop = document.getElementById("imgDrop");
+    const imgToPdf = document.getElementById("imgToPdf");
+    let selectedImages = [];
 
-let selectedImages = [];
+    imgInput.onchange = (e) => {
+        selectedImages = [...e.target.files];
+        updateCounter();
+    };
 
-imgInput.onchange = (e) => {
-  selectedImages = [...e.target.files];
-  updateCounter();
-};
+    imgDrop.ondragover = (e) => e.preventDefault();
+    imgDrop.ondrop = (e) => {
+        e.preventDefault();
+        selectedImages.push(...e.dataTransfer.files);
+        updateCounter();
+    };
 
-imgDrop.ondragover = (e) => e.preventDefault();
-imgDrop.ondrop = (e) => {
-  e.preventDefault();
-  selectedImages.push(...e.dataTransfer.files);
-  updateCounter();
-};
-
-imgToPdf.onclick = async () => {
-  if (selectedImages.length === 0) return alert("Select images first!");
-
-  const pdf = new jspdf.jsPDF();
-  for (let i = 0; i < selectedImages.length; i++) {
-    const img = await toBase64(selectedImages[i]);
-    if (i !== 0) pdf.addPage();
-    pdf.addImage(img, "JPEG", 10, 10, 190, 260);
-  }
-  pdf.save("images.pdf");
-};
+    imgToPdf.onclick = async () => {
+        if (selectedImages.length === 0) return alert("Select images first!");
+        
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+        
+        for (let i = 0; i < selectedImages.length; i++) {
+            const img = await toBase64(selectedImages[i]);
+            if (i !== 0) pdf.addPage();
+            pdf.addImage(img, "JPEG", 10, 10, 190, 260);
+        }
+        pdf.save("images.pdf");
+    };
+}
 
 
-// ---------- MERGE PDF ----------
+// ==========================================
+// 3. MERGE PDF
+// ==========================================
 const pdfInput = document.getElementById("pdfInput");
-const mergeBtn = document.getElementById("mergeBtn");
+if (pdfInput) {
+    const mergeBtn = document.getElementById("mergeBtn");
+    let pdfFiles = [];
 
-let pdfFiles = [];
+    pdfInput.onchange = (e) => {
+        pdfFiles = [...e.target.files];
+        updateCounter();
+    };
 
-pdfInput.onchange = (e) => {
-  pdfFiles = [...e.target.files];
-  updateCounter();
-};
-
-mergeBtn.onclick = async () => {
-  if (pdfFiles.length === 0) return alert("Select PDFs first!");
-
-  const merged = await PDFLib.PDFDocument.create();
-  for (const file of pdfFiles) {
-    const bytes = await file.arrayBuffer();
-    const pdf = await PDFLib.PDFDocument.load(bytes);
-    const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-    pages.forEach(p => merged.addPage(p));
-  }
-  const finalPdf = await merged.save();
-  download("merged.pdf", finalPdf);
-};
+    mergeBtn.onclick = async () => {
+        if (pdfFiles.length === 0) return alert("Select PDFs first!");
+        
+        const merged = await PDFLib.PDFDocument.create();
+        for (const file of pdfFiles) {
+            const bytes = await file.arrayBuffer();
+            const pdf = await PDFLib.PDFDocument.load(bytes);
+            const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+            pages.forEach(p => merged.addPage(p));
+        }
+        const finalPdf = await merged.save();
+        download("merged.pdf", finalPdf);
+    };
+}
 
 
-// ---------- UTILITIES ----------
+// ==========================================
+// 4. UTILITIES
+// ==========================================
 function updateCounter() {
-  document.getElementById("filesProcessed").innerText =
-    scannedImages.length + selectedImages.length + pdfFiles.length;
+    const counter = document.getElementById("filesProcessed");
+    if(counter) {
+        // Simple logic for now, you can expand this if variables are global
+        counter.innerText = "Ready"; 
+    }
 }
 
 function download(name, blob) {
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(new Blob([blob]));
-  link.download = name;
-  link.click();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([blob]));
+    link.download = name;
+    link.click();
 }
 
 function toBase64(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+    });
 }
-    
-    // ==========================================
-    // 2. DROPDOWN LOGIC (Mobile Support)
-    // ==========================================
-    const dropdownContainer = document.getElementById('dropdown-container');
-    const toolsTrigger = document.getElementById('tools-trigger');
-
-    if (dropdownContainer && toolsTrigger) {
-        toolsTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            dropdownContainer.classList.toggle('active');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!dropdownContainer.contains(e.target)) {
-                dropdownContainer.classList.remove('active');
-            }
-        });
-    }
 
 
- // ==========================================
-// 3. PWA INSTALL LOGIC (Dropdown Version)
 // ==========================================
+// 5. DROPDOWN LOGIC (This runs on every page)
+// ==========================================
+const dropdownContainer = document.getElementById('dropdown-container');
+const toolsTrigger = document.getElementById('tools-trigger');
 
+if (dropdownContainer && toolsTrigger) {
+    toolsTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdownContainer.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!dropdownContainer.contains(e.target)) {
+            dropdownContainer.classList.remove('active');
+        }
+    });
+}
+
+
+// ==========================================
+// 6. PWA INSTALL LOGIC (Fixed)
+// ==========================================
 let deferredPrompt = null;
 const installAppBtn = document.getElementById("installAppBtn");
 
-// Listen for browser install availability
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();              // stop auto-popup
-    deferredPrompt = e;             // save event
-    installAppBtn.style.display = "flex"; // show Install option
-});
-
-// User clicks "Install App"
-installAppBtn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();                      // open PWA prompt
-    const choice = await deferredPrompt.userChoice;
-
-    if (choice.outcome === "accepted") {
-        installAppBtn.style.display = "none";     // remove button
-    }
-
-    deferredPrompt = null;
-});
-
-// Hide install option if PWA is already installed
-window.addEventListener("appinstalled", () => {
-    installAppBtn.style.display = "none";
-});
-
-    // ==========================================
-    // 4. INSTANT NAVIGATION (Backup)
-    // ==========================================
-    // If you still have class="load-trigger" in your HTML, this ensures they work instantly
-    const navLinks = document.querySelectorAll('.load-trigger');
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const target = link.getAttribute('data-target') || link.getAttribute('href');
-            if(target && target !== "#") {
-                window.location.href = target;
-            }
-        });
+if (installAppBtn) {
+    window.addEventListener("beforeinstallprompt", (e) => {
+        // 1. Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // 2. Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // 3. Update UI notify the user they can add to home screen
+        installAppBtn.style.display = "flex"; // Make button visible
+        console.log("Install prompt captured");
     });
-// ===============================
-// SERVICE WORKER REGISTRATION
-// ===============================
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./sw.js")
-      .then(() => console.log("Service Worker Registered ✔"))
-      .catch(err => console.error("Service Worker Error ❌", err));
-  });
+    installAppBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const choice = await deferredPrompt.userChoice;
+        if (choice.outcome === "accepted") {
+            console.log("User accepted the A2HS prompt");
+            installAppBtn.style.display = "none";
+        } else {
+            console.log("User dismissed the A2HS prompt");
+        }
+        deferredPrompt = null;
+    });
+
+    window.addEventListener("appinstalled", () => {
+        console.log("PWA was installed");
+        installAppBtn.style.display = "none";
+    });
 }
+
+// ==========================================
+// 7. SERVICE WORKER REGISTRATION
+// ==========================================
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(() => console.log("Service Worker Registered ✔"))
+            .catch(err => console.error("Service Worker Error ❌", err));
+    });
+}
+
+
+// ==========================================
+// 8. AUTHOR MODAL
+// ==========================================
 const authorTrigger = document.getElementById("author-trigger");
-const authorModal = document.getElementById("authorModal");
-const closeAuthorModal = document.getElementById("closeAuthorModal");
+if (authorTrigger) {
+    const authorModal = document.getElementById("authorModal");
+    const closeAuthorModal = document.getElementById("closeAuthorModal");
 
-authorTrigger.addEventListener("click", () => {
-    authorModal.style.display = "flex";
-});
+    authorTrigger.addEventListener("click", () => {
+        authorModal.style.display = "flex";
+    });
 
-closeAuthorModal.addEventListener("click", () => {
-    authorModal.style.display = "none";
-});
-
-authorModal.addEventListener("click", (e) => {
-    if (e.target === authorModal) {
+    closeAuthorModal.addEventListener("click", () => {
         authorModal.style.display = "none";
-    }
-});
+    });
 
+    authorModal.addEventListener("click", (e) => {
+        if (e.target === authorModal) {
+            authorModal.style.display = "none";
+        }
+    });
+}
