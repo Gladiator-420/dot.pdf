@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('video-feed');
     const canvas = document.getElementById('capture-canvas');
     const thumbnailsList = document.getElementById('thumbnails-list');
-    const pdfFrame = document.getElementById('pdf-frame');
+    const previewList = document.getElementById('preview-list'); // Changed from iframe
     
     const btnStart = document.getElementById('btn-start');
     const btnCapture = document.getElementById('btn-capture');
@@ -17,29 +17,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageCountLabel = document.getElementById('page-count');
 
     // --- State ---
-    let capturedImages = []; // Stores Base64 image strings
+    let capturedImages = []; 
     let stream = null;
 
-    // --- Navigation Functions ---
+    // --- Navigation ---
     const switchView = (hideView, showView) => {
         hideView.classList.remove('active');
         hideView.classList.add('hidden');
-        
-        // Small delay for animation smoothness
         setTimeout(() => {
             showView.classList.remove('hidden');
-            // Trigger reflow
             void showView.offsetWidth; 
             showView.classList.add('active');
         }, 50);
     };
 
-    // --- Camera Functions ---
+    // --- Camera ---
     const startCamera = async () => {
         try {
+            // Ask for high resolution for better text clarity
             stream = await navigator.mediaDevices.getUserMedia({ 
                 video: { 
-                    facingMode: 'environment', // Prefer back camera on mobile
+                    facingMode: 'environment',
                     width: { ideal: 1920 },
                     height: { ideal: 1080 }
                 }, 
@@ -47,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             video.srcObject = stream;
         } catch (err) {
-            console.error("Camera access denied or error:", err);
-            alert("Please allow camera access to scan documents.");
+            console.error(err);
+            alert("Camera access denied.");
         }
     };
 
@@ -60,24 +58,47 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Event Listeners ---
-
-    // 1. Get Started
     btnStart.addEventListener('click', () => {
         switchView(viewLanding, viewCapture);
         startCamera();
     });
 
-    // 2. Capture Image
+    // --- SMART CAPTURE LOGIC ---
     btnCapture.addEventListener('click', () => {
-        // Set canvas dims to match video stream
+        // 1. Setup Canvas Size to match Video Resolution
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        
         const ctx = canvas.getContext('2d');
+
+        // 2. Draw the full video frame
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // 3. SMART CROP: Calculate where the "Box" is relative to the video
+        // The box is 85% width and 70% height centered (from CSS)
+        const cropWidth = canvas.width * 0.85;
+        const cropHeight = canvas.height * 0.70;
+        const cropX = (canvas.width - cropWidth) / 2;
+        const cropY = (canvas.height - cropHeight) / 2;
+
+        // 4. Create a temporary canvas to hold the cropped image
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = cropWidth;
+        tempCanvas.height = cropHeight;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // 5. Apply "Document Filter" (High Contrast B&W)
+        // This simulates a scanned look
+        tempCtx.filter = 'grayscale(1) contrast(1.4) brightness(1.1)';
         
-        // Convert to Base64 JPEG
-        const imageData = canvas.toDataURL('image/jpeg', 0.8); // 0.8 quality
+        // 6. Draw only the cropped area
+        tempCtx.drawImage(
+            canvas, 
+            cropX, cropY, cropWidth, cropHeight, // Source (Crop)
+            0, 0, cropWidth, cropHeight          // Destination (Full temp canvas)
+        );
+
+        // 7. Save result
+        const imageData = tempCanvas.toDataURL('image/jpeg', 0.8);
         capturedImages.push(imageData);
 
         // Update UI
@@ -85,70 +106,70 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = imageData;
         img.classList.add('thumb');
         thumbnailsList.appendChild(img);
-        
-        // Auto scroll to newest
         thumbnailsList.scrollLeft = thumbnailsList.scrollWidth;
         
         pageCountLabel.textContent = `${capturedImages.length} Pages`;
         btnDone.disabled = false;
         
-        // Flash animation effect
+        // Flash effect
         video.style.opacity = '0.5';
         setTimeout(() => video.style.opacity = '1', 100);
     });
 
-    // 3. Done Scanning
-    btnDone.addEventListener('click', async () => {
+    btnDone.addEventListener('click', () => {
         stopCamera();
-        await generatePDFPreview();
+        renderPreviewList(); // New Function
         switchView(viewCapture, viewPreview);
     });
 
-    // 4. Retake / New Scan
     btnRetake.addEventListener('click', () => {
         capturedImages = [];
         thumbnailsList.innerHTML = '';
         pageCountLabel.textContent = '0 Pages';
         btnDone.disabled = true;
-        switchView(viewPreview, viewLanding); // Go back to start
+        switchView(viewPreview, viewLanding);
     });
 
-    // 5. Download PDF
     btnDownload.addEventListener('click', () => {
         const doc = generatePDFObject();
         doc.save('scanned-document.pdf');
     });
 
-    // --- PDF Logic ---
+    // --- PDF & PREVIEW FUNCTIONS ---
+
+    // Generate jsPDF Object
     const generatePDFObject = () => {
         const { jsPDF } = window.jspdf;
-        // Default A4 size
         const doc = new jsPDF();
-        
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
 
         capturedImages.forEach((imgData, index) => {
             if (index > 0) doc.addPage();
             
-            // Calculate aspect ratio to fit image on page
+            // Fit image to page while keeping aspect ratio
             const imgProps = doc.getImageProperties(imgData);
             const ratio = imgProps.width / imgProps.height;
-            const targetWidth = pageWidth;
-            const targetHeight = pageWidth / ratio;
+            const targetWidth = pageWidth - 20; // 10mm margin
+            const targetHeight = targetWidth / ratio;
 
-            // Add image
-            doc.addImage(imgData, 'JPEG', 0, 0, targetWidth, targetHeight);
+            // Centering logic
+            const y = (pageHeight - targetHeight) / 2;
+
+            doc.addImage(imgData, 'JPEG', 10, 10, targetWidth, targetHeight);
         });
 
         return doc;
     };
 
-    const generatePDFPreview = async () => {
-        const doc = generatePDFObject();
-        // Create a blob URL for the iframe
-        const blob = doc.output('blob');
-        const url = URL.createObjectURL(blob);
-        pdfFrame.src = url;
+    // NEW: Render Images as Preview (Fixes Mobile Iframe Issue)
+    const renderPreviewList = () => {
+        previewList.innerHTML = ''; // Clear old
+        capturedImages.forEach((imgData, index) => {
+            const img = document.createElement('img');
+            img.src = imgData;
+            img.classList.add('preview-page');
+            previewList.appendChild(img);
+        });
     };
 });
