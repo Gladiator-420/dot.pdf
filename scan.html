@@ -47,27 +47,39 @@
                 </div>
             </section>
 
-            <section id="view-capture" class="view hidden">
-                <div class="camera-wrapper">
-                    <video id="video-feed" autoplay playsinline></video>
-                    <canvas id="capture-canvas" style="display: none;"></canvas>
-                </div>
-                
-                <div class="thumbnails-container" id="thumbnails-list">
-                    </div>
+         <section id="view-capture" class="view hidden">
+    <div class="camera-wrapper">
+        <video id="video-feed" autoplay playsinline></video>
+        <div class="scanner-overlay"></div>
+        <canvas id="capture-canvas" style="display: none;"></canvas>
+    </div>
+    
+    <div class="thumbnails-container" id="thumbnails-list"></div>
 
-                <div class="controls">
-                    <button id="btn-capture" class="btn-circle ripple">
-                        <div class="inner-circle"></div>
-                    </button>
-                    <div class="action-row">
-                        <span id="page-count" style="color: white; font-weight: 600;">0 Pages</span>
-                        <button id="btn-done" class="btn-secondary" disabled>
-                            Done <i class="fa-solid fa-check"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
+    <div class="controls">
+        <button id="btn-capture" class="btn-circle ripple"><div class="inner-circle"></div></button>
+        <div class="action-row">
+            <span id="page-count" style="color: white; font-weight: 600;">0 Pages</span>
+            <button id="btn-done" class="btn-secondary" disabled>Done <i class="fa-solid fa-check"></i></button>
+        </div>
+    </div>
+</section>
+
+<section id="view-preview" class="view hidden">
+    <h2 style="text-align: center; margin-bottom: 10px;">Review Document</h2>
+    
+    <div id="preview-list" class="pdf-preview-container glass-inset">
+        </div>
+
+    <div class="button-group">
+        <button id="btn-retake" class="btn-secondary">
+            <i class="fa-solid fa-rotate-left"></i> New
+        </button>
+        <button id="btn-download" class="btn-primary pulse">
+            Download PDF <i class="fa-solid fa-download"></i>
+        </button>
+    </div>
+</section>
 
             <section id="view-preview" class="view hidden">
                 <h2 style="text-align: center; margin-bottom: 10px;">Your PDF is Ready!</h2>
