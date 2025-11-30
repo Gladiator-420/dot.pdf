@@ -1,52 +1,43 @@
 /* =========================================
-   1. VARIABLES & RESET
+   1. GLOBAL VARIABLES & THEME
    ========================================= */
 :root {
     --bg-dark: #0f172a;
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
-    
     --primary: #3b82f6;
     --primary-glow: rgba(59, 130, 246, 0.4);
     --secondary: #8b5cf6;
-    
     --text-main: #ffffff;
     --text-muted: #94a3b8;
+    --cyan: #06b6d4;
+    --purple: #a855f7;
+    --pink: #ec4899;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Inter, Roboto, sans-serif;
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Inter, Roboto, sans-serif; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100dvh; 
+    overflow-x: hidden; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 html {
     overflow-x: hidden;
 }
 
-body {
-    background-color: var(--bg-dark);
-    color: var(--text-main);
-    min-height: 100dvh; 
-    overflow-x: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
 /* =========================================
-   2. ORB ANIMATIONS
+   2. BACKGROUND ORBS (ANIMATION)
    ========================================= */
 .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    z-index: -1;
-    opacity: 0.6;
+    position: absolute; border-radius: 50%; filter: blur(90px); z-index: -1; opacity: 0.6;
     animation: float 15s infinite ease-in-out;
 }
-
 .orb-1 { width: 400px; height: 400px; background: #2563eb; top: -100px; left: -100px; }
 .orb-2 { width: 300px; height: 300px; background: #7c3aed; bottom: 10%; right: -50px; animation-delay: -5s; }
 .orb-3 { width: 200px; height: 200px; background: #06b6d4; top: 40%; left: 30%; filter: blur(120px); opacity: 0.3; }
@@ -57,53 +48,35 @@ body {
 }
 
 /* =========================================
-   3. GLASS UTILITIES
+   3. GLASS UI UTILITIES
    ========================================= */
-.glass {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--glass-border);
-}
+.glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
 
 .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    background: var(--glass-bg); backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    position: relative; overflow: hidden; 
 }
 
+.glass-inset { background: rgba(0, 0, 0, 0.3); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border-radius: 12px; }
+
 /* =========================================
-   4. NAVBAR
+   4. NAVIGATION
    ========================================= */
 .topnav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 0 50px;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
+    position: fixed; top: 0; width: 100%; padding: 0 30px; height: 70px;
+    display: flex; justify-content: space-between; align-items: center; z-index: 100;
 }
 
 .nav-brand { display: flex; align-items: center; gap: 12px; }
 
 .nav-brand-link {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    text-decoration: none;
+    display: flex; align-items: center; height: 100%; text-decoration: none;
 }
 
 .nav-logo-img {
-    height: 55px;
-    width: auto;
-    border-radius: 50%;
+    height: 55px; width: auto; border-radius: 50%;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
 }
@@ -113,19 +86,12 @@ body {
     box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
 }
 
-.nav-title {
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    display: inline-flex;
-    align-items: center;
-}
+.nav-title { font-size: 22px; font-weight: 800; letter-spacing: 1px; display: inline-flex; align-items: center; }
 
-/* Character Styling */
-.char-cyan { color: #06b6d4; text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); animation: pulseGlow 3s infinite alternate; }
-.char-blue { color: #3b82f6; text-shadow: 0 0 15px rgba(59, 130, 246, 0.5); animation: pulseGlow 3s infinite alternate 0.5s; }
-.char-purple { color: #a855f7; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); animation: pulseGlow 3s infinite alternate 1s; }
-.char-pink { color: #ec4899; font-weight: 600; margin-left: 4px; text-shadow: 0 0 15px rgba(236, 72, 153, 0.5); animation: pulseGlow 3s infinite alternate 1.5s; }
+.char-cyan { color: var(--cyan); text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); animation: pulseGlow 3s infinite alternate; }
+.char-blue { color: var(--primary); text-shadow: 0 0 15px rgba(59, 130, 246, 0.5); animation: pulseGlow 3s infinite alternate 0.5s; }
+.char-purple { color: var(--purple); text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); animation: pulseGlow 3s infinite alternate 1s; }
+.char-pink { color: var(--pink); font-weight: 600; margin-left: 4px; text-shadow: 0 0 15px rgba(236, 72, 153, 0.5); animation: pulseGlow 3s infinite alternate 1.5s; }
 .char-space { width: 2px; }
 
 @keyframes pulseGlow {
@@ -133,177 +99,162 @@ body {
     100% { opacity: 1; text-shadow: 0 0 20px currentColor; transform: scale(1.05); }
 }
 
-.nav-menu { list-style: none; display: flex; gap: 30px; }
-.nav-menu a { text-decoration: none; color: var(--text-muted); font-weight: 500; transition: 0.3s; }
-.nav-menu a:hover, .nav-menu a.active { color: #fff; }
-
-/* =========================================
-   5. DROPDOWN MENU
-   ========================================= */
-.dropdown-container {
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.arrow-indicator {
-    font-size: 0.7rem;
-    margin-left: 6px;
-    transition: transform 0.3s ease;
-}
-
-.dropdown-container:hover .arrow-indicator { transform: rotate(180deg); }
-
-.dropdown-menu {
-    position: absolute;
-    top: 60px;
-    right: -50px;
-    width: 260px;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 10px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 999;
-}
-
-.dropdown-container:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 10px;
+.nav-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%; color: var(--text-muted); transition: 0.3s;
     text-decoration: none;
-    color: white;
-    transition: background 0.2s ease;
-    margin-bottom: 5px;
 }
-.dropdown-item:last-child { margin-bottom: 0; }
-.dropdown-item:hover { background: rgba(255, 255, 255, 0.08); }
-
-.dd-icon {
-    width: 36px; height: 36px; border-radius: 8px;
-    display: grid; place-items: center; font-size: 1rem; flex-shrink: 0;
-}
-.dd-icon.blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-.dd-icon.purple { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
-.dd-icon.pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
-/* Add to your .dd-icon section */
-.dd-icon.orange { background: rgba(249, 115, 22, 0.2); color: #fb923c; }
-
-/* Add to your .icon-box section (if you want the main card to be orange too) */
-.icon-box.orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
-
-.dd-text { display: flex; flex-direction: column; }
-.dd-title { font-size: 0.95rem; font-weight: 600; color: #fff; }
-.dd-desc { font-size: 0.75rem; color: var(--text-muted); }
-.dropdown-item:hover .dd-title { color: var(--primary); }
+.nav-icon:hover { background: rgba(255,255,255,0.1); color: white; transform: scale(1.1); }
 
 /* =========================================
-   6. LAYOUT & HERO
+   5. MAIN LAYOUT
    ========================================= */
 .container-center {
-    flex: 1;
+    flex: 1; width: 100%; max-width: 600px;
+    margin: 100px auto 40px; padding: 0 20px;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+.scanner-app {
     width: 100%;
-    max-width: 700px;
-    margin: 120px auto 40px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    min-height: 650px;
+    display: flex; flex-direction: column;
 }
 
-.hero-text { text-align: center; margin-bottom: 50px; }
-.hero-text h1 { font-size: 2.8rem; margin-bottom: 10px; line-height: 1.2; }
-.hero-text p { color: var(--text-muted); font-size: 1.2rem; }
-
-.highlight {
-    position: relative;
-    display: inline-block;
-    font-weight: 800;
-    background: linear-gradient(to right, #3b82f6 0%, #8b5cf6 25%, #ec4899 50%, #8b5cf6 75%, #3b82f6 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: smoothFlow 3s linear infinite;
-    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.3));
+/* Views & Transitions */
+.view {
+    flex: 1; display: flex; flex-direction: column; padding: 25px;
+    opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
+    position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+    pointer-events: none;
 }
+.view.active { opacity: 1; pointer-events: all; transform: scale(1); position: relative; }
+.view.hidden { display: none; }
 
-@keyframes smoothFlow { from { background-position: 0% center; } to { background-position: -200% center; } }
+/* Landing View */
+.content-center { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center; }
+.page-title { font-size: 2rem; margin-bottom: 10px; color: white; }
+.page-subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
 
 /* =========================================
-   7. TOOL CARDS
+   6. CAPTURE & OVERLAY (OpenCV)
    ========================================= */
-.tools-list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.tool-card {
-    display: flex;
-    align-items: center;
-    padding: 30px;
-    cursor: pointer;
-    gap: 25px;
-    position: relative;
+.camera-wrapper {
+    flex: 1; 
+    background: #000; 
+    border-radius: 12px; 
     overflow: hidden;
+    position: relative; /* Essential for absolute positioning of overlay */
+    margin-bottom: 15px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    
+    /* Center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Shine Effect */
-.tool-card::before {
-    content: '';
+#video-feed { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* CRITICAL: Overlay for drawing detection lines */
+/* UPDATED: Added object-fit: cover to align with video */
+#overlay-canvas {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-    transform: translateX(-100%);
-    transition: 0.5s;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 10;
+    object-fit: cover; /* Ensures canvas scales same as video */
 }
 
-.tool-card:hover::before { transform: translateX(100%); }
-
-/* HOVER EFFECT FIXED: Removed 'scale' so it doesn't enlarge */
-.tool-card:hover {
-    transform: translateY(-5px); /* Only lifts up */
-    border-color: rgba(255,255,255,0.2);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+/* Thumbnails Strip */
+.thumbnails-container {
+    height: 80px; display: flex; gap: 10px; overflow-x: auto;
+    padding-bottom: 5px; margin-bottom: 15px;
+}
+.thumb {
+    height: 70px; width: 50px; border-radius: 6px; border: 2px solid var(--primary);
+    object-fit: cover; flex-shrink: 0; animation: popIn 0.3s ease;
 }
 
-.icon-box {
-    width: 60px; height: 60px; border-radius: 14px;
-    display: grid; place-items: center; font-size: 26px; flex-shrink: 0;
-}
-.icon-box.blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-.icon-box.purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
-.icon-box.pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
-
-.card-info { flex: 1; }
-.card-info h2 { font-size: 1.3rem; margin-bottom: 6px; }
-.card-info p { font-size: 0.95rem; color: var(--text-muted); }
-
-.arrow-icon {
-    color: var(--text-muted); opacity: 0; transform: translateX(-20px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 1.2rem;
-}
-.tool-card:hover .arrow-icon { opacity: 1; transform: translateX(0); color: var(--primary); }
+/* Controls Area */
+.controls { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.action-row { display: flex; justify-content: space-between; width: 100%; align-items: center; }
 
 /* =========================================
-   8. FOOTER
+   7. PREVIEW SECTION
+   ========================================= */
+.pdf-preview-container {
+    flex: 1; width: 100%; margin: 10px 0 20px; 
+    border: 1px solid var(--glass-border);
+    overflow-y: auto; 
+    background: rgba(255, 255, 255, 0.1);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 15px;
+    padding: 20px;
+}
+#pdf-frame { width: 100%; height: 100%; border: none; }
+.preview-page {
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border-radius: 4px;
+}
+
+/* =========================================
+   8. BUTTONS & UI ELEMENTS
+   ========================================= */
+.button-group { display: flex; gap: 15px; width: 100%; }
+.button-group button { flex: 1; }
+
+button { cursor: pointer; border: none; outline: none; transition: all 0.3s ease; }
+
+.btn-primary {
+    background: var(--primary); color: white; padding: 12px 24px;
+    border-radius: 12px; font-weight: 600; font-size: 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 6px 0 #1e40af, 0 10px 10px rgba(0,0,0,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #1e40af, 0 15px 20px rgba(0,0,0,0.3); background: #3b82f6; }
+.btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #1e40af, 0 4px 5px rgba(0,0,0,0.3); }
+.btn-primary:disabled { background: var(--glass-border); color: var(--text-muted); box-shadow: none; transform: none; cursor: not-allowed; }
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1); color: white; padding: 10px 20px;
+    border-radius: 10px; font-weight: 500; border: 1px solid var(--glass-border);
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Shutter Button */
+.btn-circle {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4);
+    display: flex; justify-content: center; align-items: center;
+}
+.inner-circle { width: 55px; height: 55px; border-radius: 50%; background: white; transition: transform 0.1s; }
+.btn-circle:active .inner-circle { transform: scale(0.9); background: var(--primary); }
+
+/* Animations */
+@keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+.pulse { animation: pulse 2s infinite; }
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+/* =========================================
+   9. FOOTER
    ========================================= */
 footer {
     text-align: center;
@@ -316,9 +267,14 @@ footer {
     backdrop-filter: blur(5px);
 }
 
-.footer-content { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.footer-content {
+    display: flex; flex-direction: column; gap: 8px; align-items: center;
+}
 
-.heart-beat { color: #ef4444; display: inline-block; animation: heartbeat 1.5s infinite ease-in-out; }
+.heart-beat {
+    color: #ef4444; display: inline-block; animation: heartbeat 1.5s infinite ease-in-out;
+}
+
 @keyframes heartbeat {
     0%, 100% { transform: scale(1); }
     15% { transform: scale(1.3); }
@@ -332,51 +288,92 @@ footer {
 .name-highlight {
     font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
     background: linear-gradient(90deg, #fbbf24, #f472b6, #a78bfa, #fbbf24);
-    background-size: 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     animation: shineName 3s linear infinite;
     filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.4));
     display: inline-block;
 }
+
 @keyframes shineName { to { background-position: 200% center; } }
 
-
 /* =========================================
-   9. UPDATED ANIMATIONS (Strict Order Fix)
-   ========================================= */
-.fade-in { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
-
-/* Using '> div' ensures we hit the card regardless of class name quirks */
-.tools-list > div:nth-child(1) { animation: fadeInUp 0.6s ease 0.2s forwards; opacity: 0; }
-.tools-list > div:nth-child(2) { animation: fadeInUp 0.6s ease 0.3s forwards; opacity: 0; }
-.tools-list > div:nth-child(3) { animation: fadeInUp 0.6s ease 0.4s forwards; opacity: 0; }
-.tools-list > div:nth-child(4) { animation: fadeInUp 0.6s ease 0.5s forwards; opacity: 0; } /* Compress Card */
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-
-
-/* =========================================
-   11. RESPONSIVE
+   10. RESPONSIVE DESIGN
    ========================================= */
 @media(max-width: 600px){
-    .container-center { margin-top: 100px; padding: 0 15px; max-width: 100%; margin-bottom: 20px; }
-    .hero-text h1 { font-size: 2rem; }
-    
-    .topnav { padding: 0 15px; height: 60px; }
+    /* 1. Navbar Compact */
+    .topnav { 
+        padding: 0 15px; 
+        height: 60px; 
+    }
     .nav-title { font-size: 1.2rem; }
     .nav-logo-img { height: 40px; }
-    .nav-menu { gap: 15px; }
-    .nav-menu a { font-size: 0.9rem; }
     
-    .tool-card { padding: 20px; gap: 15px; }
-    .icon-box { width: 50px; height: 50px; font-size: 22px; }
-    .arrow-icon { display: none; } 
+    /* 2. Main Container: Fit to screen exactly (No Scroll) */
+    .container-center { 
+        margin-top: 65px; /* Sit right below nav */
+        margin-bottom: 0;
+        padding: 10px;
+        width: 100%;
+        /* Dynamic viewport height minus nav */
+        height: calc(100dvh - 65px); 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
     
-    footer { padding: 15px; font-size: 0.8rem; }
+    /* 3. Scanner Card: Remove fixed height, let it flex */
+    .scanner-app {
+        width: 100%;
+        min-height: 0; /* CRITICAL FIX: Reset min-height for mobile to allow proper flex scaling */
+        height: 100%; 
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px; /* Slightly smaller radius */
+    }
+
+    /* 4. Views: Flex column to manage internal space */
+    .view {
+        padding: 15px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Prevent scroll */
+    }
+
+    /* Landing Page Specifics */
+    #view-landing .content-center {
+        justify-content: center;
+        flex: 1;
+    }
+
+    /* 5. Camera Wrapper: Flex 1 to take remaining space */
+    .camera-wrapper {
+        flex: 1; 
+        min-height: 0; /* CRITICAL: Allows shrinking below content size */
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    /* Thumbnails: Smaller on mobile */
+    .thumbnails-container {
+        height: 60px;
+        flex-shrink: 0;
+        margin-bottom: 10px;
+    }
+    .thumb {
+        height: 50px;
+        width: auto;
+    }
+
+    /* Controls: Ensure they are visible */
+    .controls {
+        flex-shrink: 0; /* Prevent controls from squishing */
+        gap: 10px;
+        padding-bottom: 5px;
+    }
+
+    /* 6. Hide Footer on Mobile to save space */
+    footer { 
+        display: none; 
+    }
 }
