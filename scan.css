@@ -161,6 +161,7 @@ html {
 }
 
 /* CRITICAL: Overlay for drawing detection lines */
+/* UPDATED: Added object-fit: cover to align with video */
 #overlay-canvas {
     position: absolute;
     top: 0;
@@ -169,6 +170,7 @@ html {
     height: 100%;
     pointer-events: none; /* Allows clicks to pass through */
     z-index: 10;
+    object-fit: cover; /* Ensures canvas scales same as video */
 }
 
 /* Thumbnails Strip */
@@ -322,7 +324,7 @@ footer {
     /* 3. Scanner Card: Remove fixed height, let it flex */
     .scanner-app {
         width: 100%;
-        min-height: 0; /* OVERRIDE the 650px desktop default */
+        min-height: 0; /* CRITICAL FIX: Reset min-height for mobile to allow proper flex scaling */
         height: 100%; 
         display: flex;
         flex-direction: column;
