@@ -6,8 +6,6 @@
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
     --primary: #3b82f6;
-    --primary-glow: rgba(59, 130, 246, 0.4);
-    --secondary: #8b5cf6;
     --text-main: #ffffff;
     --text-muted: #94a3b8;
     --cyan: #06b6d4;
@@ -20,19 +18,15 @@
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
-    min-height: 100dvh; 
-    overflow-x: hidden; 
+    height: 100dvh; /* Force body to exact viewport height */
+    overflow: hidden; /* Prevent body scroll */
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-html {
-    overflow-x: hidden;
-}
-
 /* =========================================
-   2. BACKGROUND ORBS (ANIMATION)
+   2. BACKGROUND
    ========================================= */
 .orb {
     position: absolute; border-radius: 50%; filter: blur(90px); z-index: -1; opacity: 0.6;
@@ -47,57 +41,36 @@ html {
     50% { transform: translate(30px, 40px); }
 }
 
-/* =========================================
-   3. GLASS UI UTILITIES
-   ========================================= */
 .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
-
 .glass-card {
     background: var(--glass-bg); backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border); border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     position: relative; overflow: hidden; 
 }
-
 .glass-inset { background: rgba(0, 0, 0, 0.3); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border-radius: 12px; }
 
 /* =========================================
-   4. NAVIGATION
+   3. NAVIGATION
    ========================================= */
 .topnav {
     position: fixed; top: 0; width: 100%; padding: 0 30px; height: 70px;
     display: flex; justify-content: space-between; align-items: center; z-index: 100;
 }
-
 .nav-brand { display: flex; align-items: center; gap: 12px; }
-
-.nav-brand-link {
-    display: flex; align-items: center; height: 100%; text-decoration: none;
-}
-
+.nav-brand-link { display: flex; align-items: center; height: 100%; text-decoration: none; }
 .nav-logo-img {
     height: 55px; width: auto; border-radius: 50%;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
 }
-
-.nav-brand-link:hover .nav-logo-img {
-    transform: scale(1.1) rotate(-5deg);
-    box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
-}
-
+.nav-brand-link:hover .nav-logo-img { transform: scale(1.1) rotate(-5deg); box-shadow: 0 0 25px rgba(236, 72, 153, 0.5); }
 .nav-title { font-size: 22px; font-weight: 800; letter-spacing: 1px; display: inline-flex; align-items: center; }
 
-.char-cyan { color: var(--cyan); text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); animation: pulseGlow 3s infinite alternate; }
-.char-blue { color: var(--primary); text-shadow: 0 0 15px rgba(59, 130, 246, 0.5); animation: pulseGlow 3s infinite alternate 0.5s; }
-.char-purple { color: var(--purple); text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); animation: pulseGlow 3s infinite alternate 1s; }
-.char-pink { color: var(--pink); font-weight: 600; margin-left: 4px; text-shadow: 0 0 15px rgba(236, 72, 153, 0.5); animation: pulseGlow 3s infinite alternate 1.5s; }
-.char-space { width: 2px; }
-
-@keyframes pulseGlow {
-    0% { opacity: 0.8; text-shadow: 0 0 5px currentColor; transform: scale(1); }
-    100% { opacity: 1; text-shadow: 0 0 20px currentColor; transform: scale(1.05); }
-}
+.char-cyan { color: var(--cyan); text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
+.char-blue { color: var(--primary); text-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+.char-purple { color: var(--purple); text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
+.char-pink { color: var(--pink); font-weight: 600; margin-left: 4px; text-shadow: 0 0 15px rgba(236, 72, 153, 0.5); }
 
 .nav-icon {
     display: flex; align-items: center; justify-content: center;
@@ -107,7 +80,7 @@ html {
 .nav-icon:hover { background: rgba(255,255,255,0.1); color: white; transform: scale(1.1); }
 
 /* =========================================
-   5. MAIN LAYOUT
+   4. LAYOUT & VIEWPORTS
    ========================================= */
 .container-center {
     flex: 1; width: 100%; max-width: 600px;
@@ -121,7 +94,7 @@ html {
     display: flex; flex-direction: column;
 }
 
-/* Views & Transitions */
+/* Views */
 .view {
     flex: 1; display: flex; flex-direction: column; padding: 25px;
     opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
@@ -131,49 +104,62 @@ html {
 .view.active { opacity: 1; pointer-events: all; transform: scale(1); position: relative; }
 .view.hidden { display: none; }
 
-/* Landing View */
-.content-center { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center; }
+/* Landing */
+#view-landing .content-center { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center; }
 .page-title { font-size: 2rem; margin-bottom: 10px; color: white; }
 .page-subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
 
 /* =========================================
-   6. CAPTURE & OVERLAY (OpenCV)
+   5. CAMERA & OVERLAY (CRITICAL FIXES)
    ========================================= */
 .camera-wrapper {
     flex: 1; 
     background: #000; 
     border-radius: 12px; 
     overflow: hidden;
-    position: relative; /* Essential for absolute positioning of overlay */
+    position: relative; 
     margin-bottom: 15px; 
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     
-    /* Center content */
+    /* Ensure content is centered and cropped correctly */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#video-feed { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-}
-
-/* CRITICAL: Overlay for drawing detection lines */
-/* UPDATED: Added object-fit: cover to align with video */
-#overlay-canvas {
+/* We use a 'center-crop' technique instead of object-fit: cover 
+   to ensure the canvas (lines) and video (camera) align perfectly.
+*/
+#video-feed, #overlay-canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Default for Desktop/Landscape: Fill width, crop top/bottom */
     width: 100%;
-    height: 100%;
-    pointer-events: none; /* Allows clicks to pass through */
-    z-index: 10;
-    object-fit: cover; /* Ensures canvas scales same as video */
+    height: auto;
+    
+    /* Ensure we don't shrink smaller than container */
+    min-width: 100%;
+    min-height: 100%;
 }
 
-/* Thumbnails Strip */
+/* Mobile Portrait Mode Adjustment */
+/* If screen is tall, fill height and crop sides */
+@media (max-aspect-ratio: 3/4) { 
+    #video-feed, #overlay-canvas {
+        width: auto;
+        height: 100%;
+    }
+}
+
+#overlay-canvas {
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Thumbnails */
 .thumbnails-container {
     height: 80px; display: flex; gap: 10px; overflow-x: auto;
     padding-bottom: 5px; margin-bottom: 15px;
@@ -183,58 +169,41 @@ html {
     object-fit: cover; flex-shrink: 0; animation: popIn 0.3s ease;
 }
 
-/* Controls Area */
+/* Controls */
 .controls { display: flex; flex-direction: column; align-items: center; gap: 15px; }
 .action-row { display: flex; justify-content: space-between; width: 100%; align-items: center; }
 
-/* =========================================
-   7. PREVIEW SECTION
-   ========================================= */
+/* Preview */
 .pdf-preview-container {
     flex: 1; width: 100%; margin: 10px 0 20px; 
     border: 1px solid var(--glass-border);
     overflow-y: auto; 
     background: rgba(255, 255, 255, 0.1);
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    gap: 15px;
-    padding: 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 20px;
 }
-#pdf-frame { width: 100%; height: 100%; border: none; }
-.preview-page {
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    border-radius: 4px;
-}
+.preview-page { width: 100%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 4px; }
 
 /* =========================================
-   8. BUTTONS & UI ELEMENTS
+   6. BUTTONS & UI
    ========================================= */
 .button-group { display: flex; gap: 15px; width: 100%; }
 .button-group button { flex: 1; }
-
 button { cursor: pointer; border: none; outline: none; transition: all 0.3s ease; }
 
 .btn-primary {
     background: var(--primary); color: white; padding: 12px 24px;
     border-radius: 12px; font-weight: 600; font-size: 1rem;
     border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 6px 0 #1e40af, 0 10px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 0 #1e40af;
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #1e40af, 0 15px 20px rgba(0,0,0,0.3); background: #3b82f6; }
-.btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #1e40af, 0 4px 5px rgba(0,0,0,0.3); }
+.btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #1e40af; }
 .btn-primary:disabled { background: var(--glass-border); color: var(--text-muted); box-shadow: none; transform: none; cursor: not-allowed; }
 
 .btn-secondary {
     background: rgba(255, 255, 255, 0.1); color: white; padding: 10px 20px;
     border-radius: 10px; font-weight: 500; border: 1px solid var(--glass-border);
 }
-.btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
-.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Shutter Button */
 .btn-circle {
     width: 70px; height: 70px; border-radius: 50%;
     background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4);
@@ -243,9 +212,7 @@ button { cursor: pointer; border: none; outline: none; transition: all 0.3s ease
 .inner-circle { width: 55px; height: 55px; border-radius: 50%; background: white; transition: transform 0.1s; }
 .btn-circle:active .inner-circle { transform: scale(0.9); background: var(--primary); }
 
-/* Animations */
 @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
-
 .pulse { animation: pulse 2s infinite; }
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
@@ -253,127 +220,73 @@ button { cursor: pointer; border: none; outline: none; transition: all 0.3s ease
     100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
 }
 
-/* =========================================
-   9. FOOTER
-   ========================================= */
 footer {
-    text-align: center;
-    padding: 25px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: auto;
-    border-top: 1px solid var(--glass-border);
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(5px);
+    text-align: center; padding: 25px; color: var(--text-muted); font-size: 0.9rem;
+    margin-top: auto; border-top: 1px solid var(--glass-border);
+    background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(5px);
 }
-
-.footer-content {
-    display: flex; flex-direction: column; gap: 8px; align-items: center;
-}
-
-.heart-beat {
-    color: #ef4444; display: inline-block; animation: heartbeat 1.5s infinite ease-in-out;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.3); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.3); }
-    60% { transform: scale(1); }
-}
-
-.copyright-text { font-size: 0.85rem; opacity: 0.9; }
-
+.heart-beat { color: #ef4444; display: inline-block; animation: heartbeat 1.5s infinite ease-in-out; }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.3); } 30% { transform: scale(1); } 45% { transform: scale(1.3); } 60% { transform: scale(1); } }
 .name-highlight {
-    font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 800; text-transform: uppercase;
     background: linear-gradient(90deg, #fbbf24, #f472b6, #a78bfa, #fbbf24);
     background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     animation: shineName 3s linear infinite;
-    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.4));
-    display: inline-block;
 }
-
 @keyframes shineName { to { background-position: 200% center; } }
 
 /* =========================================
-   10. RESPONSIVE DESIGN
+   7. RESPONSIVE / MOBILE FIXES
    ========================================= */
 @media(max-width: 600px){
-    /* 1. Navbar Compact */
-    .topnav { 
-        padding: 0 15px; 
-        height: 60px; 
-    }
+    .topnav { padding: 0 15px; height: 60px; }
     .nav-title { font-size: 1.2rem; }
     .nav-logo-img { height: 40px; }
     
-    /* 2. Main Container: Fit to screen exactly (No Scroll) */
+    /* FIX HUGE SCROLL: Force container to fit exactly in viewport */
     .container-center { 
-        margin-top: 65px; /* Sit right below nav */
+        margin-top: 60px; /* Below nav */
         margin-bottom: 0;
         padding: 10px;
         width: 100%;
         /* Dynamic viewport height minus nav */
-        height: calc(100dvh - 65px); 
+        height: calc(100dvh - 60px); 
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
     }
     
-    /* 3. Scanner Card: Remove fixed height, let it flex */
+    /* Allow scanner app to flex within the container */
     .scanner-app {
         width: 100%;
-        min-height: 0; /* CRITICAL FIX: Reset min-height for mobile to allow proper flex scaling */
+        min-height: 0; /* Override desktop minimum */
         height: 100%; 
         display: flex;
         flex-direction: column;
-        border-radius: 12px; /* Slightly smaller radius */
     }
 
-    /* 4. Views: Flex column to manage internal space */
+    /* Views fill space */
     .view {
         padding: 15px;
         height: 100%;
         display: flex;
         flex-direction: column;
-        overflow: hidden; /* Prevent scroll */
+        overflow: hidden; 
     }
 
-    /* Landing Page Specifics */
-    #view-landing .content-center {
-        justify-content: center;
-        flex: 1;
-    }
-
-    /* 5. Camera Wrapper: Flex 1 to take remaining space */
+    /* Camera takes all remaining space, but can shrink */
     .camera-wrapper {
         flex: 1; 
-        min-height: 0; /* CRITICAL: Allows shrinking below content size */
+        min-height: 0; 
         margin-bottom: 10px;
         border-radius: 8px;
     }
 
-    /* Thumbnails: Smaller on mobile */
-    .thumbnails-container {
-        height: 60px;
-        flex-shrink: 0;
-        margin-bottom: 10px;
-    }
-    .thumb {
-        height: 50px;
-        width: auto;
-    }
+    /* Smaller UI elements */
+    .thumbnails-container { height: 60px; flex-shrink: 0; margin-bottom: 10px; }
+    .thumb { height: 50px; width: auto; }
+    .controls { flex-shrink: 0; gap: 10px; padding-bottom: 5px; }
 
-    /* Controls: Ensure they are visible */
-    .controls {
-        flex-shrink: 0; /* Prevent controls from squishing */
-        gap: 10px;
-        padding-bottom: 5px;
-    }
-
-    /* 6. Hide Footer on Mobile to save space */
-    footer { 
-        display: none; 
-    }
+    /* Hide Footer to save space */
+    footer { display: none; }
 }
