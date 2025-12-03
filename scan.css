@@ -267,22 +267,29 @@ footer {
    8. RESPONSIVE / MOBILE FIXES
    ========================================= */
 @media(max-width: 600px){
+     /* 1. Fix Navbar Overflow */
     .topnav { 
-        padding: 0 10px; 
-        height: 60px; 
-        width: 100%;
-        overflow: hidden; 
+        padding: 0 15px; /* Reduced from 50px to 15px */
+        height: 60px;    /* Slightly smaller height */
+    }
+
+    /* 2. Resize Logo Text */
+    .nav-title {
+        font-size: 1.2rem; /* Smaller text so it fits */
     }
     
-    .nav-title { font-size: 1.1rem; white-space: nowrap; }
-    .nav-logo-img { height: 35px; width: 35px; }
-    
-    .nav-brand {
-        gap: 8px;
-        flex-shrink: 1; 
-        overflow: hidden; 
+    .nav-logo-img {
+        height: 40px; /* Smaller logo image */
+    }
+
+    /* 3. Adjust Menu Spacing */
+    .nav-menu {
+        gap: 15px; /* Bring links closer together */
     }
     
+    .nav-menu a {
+        font-size: 0.9rem; /* Smaller link text */
+    }
     .container-center { 
         margin-top: 60px; 
         margin-bottom: 0;
