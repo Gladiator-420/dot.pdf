@@ -262,34 +262,48 @@ footer {
 }
 @keyframes shineName { to { background-position: 200% center; } }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+}
+.container-center {
+    padding-bottom: 80px; /* space for footer */
+}
 
 /* =========================================
    8. RESPONSIVE / MOBILE FIXES
    ========================================= */
 @media(max-width: 600px){
-     /* 1. Fix Navbar Overflow */
-    .topnav { 
-        padding: 0 15px; /* Reduced from 50px to 15px */
-        height: 60px;    /* Slightly smaller height */
-    }
+.topnav {
+    overflow: hidden;        /* prevent horizontal scroll */
+    max-width: 100vw;        /* prevent extra width */
+}
 
-    /* 2. Resize Logo Text */
-    .nav-title {
-        font-size: 1.2rem; /* Smaller text so it fits */
-    }
-    
-    .nav-logo-img {
-        height: 40px; /* Smaller logo image */
-    }
+.nav-title {
+    white-space: nowrap;     /* keep text in one line */
+    overflow: hidden;        /* hide overflow */
+    text-overflow: ellipsis; /* add ... if needed */
+}
 
-    /* 3. Adjust Menu Spacing */
-    .nav-menu {
-        gap: 15px; /* Bring links closer together */
-    }
-    
-    .nav-menu a {
-        font-size: 0.9rem; /* Smaller link text */
-    }
+.nav-brand {
+    min-width: 0;            /* allow shrinking */
+}
+
+.nav-brand-link {
+    min-width: 0;
+}
+
+.nav-logo-img {
+    flex-shrink: 0;          /* prevent logo squish */
+}
+
+.nav-icon {
+    flex-shrink: 0;          /* prevents icon from squishing */
+}
+
     .container-center { 
         margin-top: 60px; 
         margin-bottom: 0;
