@@ -361,6 +361,19 @@ footer {
     background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(5px);
 }
+    footer {
+        position: fixed;     /* Force proper positioning */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 10px;  /* Reduce padding to prevent overflow */
+        box-sizing: border-box; /* Prevent width from exceeding viewport */
+        overflow-x: hidden;   /* Extra safety */
+    }
+
+    html, body {
+        overflow-x: hidden;   /* Stop any accidental horizontal scroll */
+    }
 
 .footer-content { display: flex; flex-direction: column; gap: 8px; align-items: center; }
 
