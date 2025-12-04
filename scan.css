@@ -304,34 +304,15 @@ footer {
     flex-shrink: 0;          /* prevents icon from squishing */
 }
 
-    .container-center { 
-        margin-top: 60px; 
-        margin-bottom: 0;
-        padding: 10px;
-        width: 100%;
-        /* Occupies full remaining height minus header */
-        height: calc(100dvh - 60px); 
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow: hidden; 
-    }
     
-    .scanner-app {
-        width: 100%;
-        min-height: 0; 
-        height: 100%; 
-        display: flex;
-        flex-direction: column;
+    .container-center {
+        padding-bottom: 90px !important; /* enough space above footer */
+        overflow-y: auto;                 /* allow scrolling again */
+        -webkit-overflow-scrolling: touch;
     }
 
     .view {
-        padding: 10px;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden; 
+        overflow-y: auto; /* ensure inner view can scroll */
     }
 
     .camera-wrapper {
